@@ -44,6 +44,7 @@ if [ "$COMMAND" = "browse" ]; then
             {
                 title: "Open in browser",
                 onAction: {
+                    key: "o",
                     type: "open",
                     target: .html_url,
                     exit: true
@@ -52,6 +53,7 @@ if [ "$COMMAND" = "browse" ]; then
             {
                 title: "Copy URL",
                 onAction: {
+                    key: "c",
                     type: "copy",
                     text: .html_url,
                     exit: true
