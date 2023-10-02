@@ -1,0 +1,79 @@
+#!/bin/sh
+
+set -eu
+
+if [ $# -eq 0 ]; then
+    sunbeam query -n '{
+        title: "Store",
+        root: "browse",
+        commands: [
+            {
+                name: "browse",
+                title: "Browse",
+                mode: "view",
+            },
+            {
+                name: "view-readme",
+                title: "View README",
+                mode: "view",
+                params: [
+                    { name: "repo", type: "string" }
+                ]
+            }
+        ]
+    }'
+    exit 0
+fi
+
+COMMAND=$(echo "$1" | sunbeam query -r '.command')
+
+if [ "$COMMAND" = "browse" ]; then
+    sunbeam fetch 'https://api.github.com/search/repositories?q=topic:sunbeam-extension' | sunbeam query '.items[] | {
+        title: .name,
+        subtitle: .owner.login,
+        accessories: [(.description // "")],
+        actions: [
+            {
+                title: "View README",
+                onAction: {
+                    type: "run",
+                    command: "view-readme",
+                    params: { repo: .full_name }
+                }
+            },
+            {
+                title: "Open in browser",
+                onAction: {
+                    type: "open",
+                    target: .html_url,
+                    exit: true
+                }
+            },
+            {
+                title: "Copy URL",
+                onAction: {
+                    type: "copy",
+                    text: .html_url,
+                    exit: true
+                }
+            }
+        ]
+    }' | sunbeam query -s '{type: "list", items: .}'
+elif [ "$COMMAND" = "view-readme" ]; then
+    REPO=$(echo "$1" | sunbeam query -r '.params.repo')
+    sunbeam fetch "https://api.github.com/repos/$REPO/readme" | sunbeam query '{
+        type: "detail",
+        text: (.content | @base64d),
+        language: "markdown",
+        actions: [
+            {
+                title: "Open in browser",
+                onAction: {
+                    type: "open",
+                    target: .html_url,
+                    exit: true
+                }
+            }
+        ]
+    }'
+fi
