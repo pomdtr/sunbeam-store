@@ -11,5 +11,5 @@ sunbeam extension install https://github.com/pomdtr/sunbeam-store
 ## Usage
 
 ```sh
-sunbeam store # browse sunbeam extensions
+sunbeam store browse # browse sunbeam extensions
 ```
