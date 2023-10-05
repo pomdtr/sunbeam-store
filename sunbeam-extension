@@ -5,6 +5,7 @@ set -eu
 if [ $# -eq 0 ]; then
     sunbeam query -n '{
         title: "Store",
+        root: "browse",
         commands: [
             {
                 name: "browse",
