@@ -9,12 +9,12 @@ if [ $# -eq 0 ]; then
         commands: [
             {
                 name: "browse",
-                title: "Browse",
+                title: "Browse Extensions",
                 mode: "view",
             },
             {
                 name: "view-readme",
-                title: "View README",
+                title: "View Extension README",
                 mode: "view",
                 params: [
                     { name: "repo", type: "string" }
