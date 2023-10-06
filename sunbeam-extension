@@ -2,7 +2,7 @@
 
 set -eu
 
-if [ $# -eq 0 ]; then
+if [ $# -eq 1 ] && [ "$1" = "manifest" ]; then
     sunbeam query -n '{
         title: "Store",
         commands: [
@@ -24,7 +24,8 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-COMMAND=$(echo "$1" | sunbeam query -r '.command')
+INPUT=$(cat)
+COMMAND=$(echo "$INPUT" | sunbeam query -r '.command')
 
 if [ "$COMMAND" = "browse" ]; then
     sunbeam fetch 'https://api.github.com/search/repositories?q=topic:sunbeam-extension' | sunbeam query '.items[] | {
@@ -61,7 +62,7 @@ if [ "$COMMAND" = "browse" ]; then
         ]
     }' | sunbeam query -s '{type: "list", items: .}'
 elif [ "$COMMAND" = "view-readme" ]; then
-    REPO=$(echo "$1" | sunbeam query -r '.params.repo')
+    REPO=$(echo "$INPUT" | sunbeam query -r '.params.repo')
     sunbeam fetch "https://api.github.com/repos/$REPO/readme" | sunbeam query '{
         type: "detail",
         text: (.content | @base64d),
