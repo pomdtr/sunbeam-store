@@ -65,8 +65,7 @@ elif [ "$COMMAND" = "view-readme" ]; then
     REPO=$(echo "$INPUT" | sunbeam query -r '.params.repo')
     sunbeam fetch "https://api.github.com/repos/$REPO/readme" | sunbeam query '{
         type: "detail",
-        text: (.content | @base64d),
-        language: "markdown",
+        markdown: (.content | @base64d),
         actions: [
             {
                 title: "Open in browser",
