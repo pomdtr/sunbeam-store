@@ -63,10 +63,19 @@ if [ "$COMMAND" = "browse" ]; then
     }' | sunbeam query -s '{type: "list", items: .}'
 elif [ "$COMMAND" = "view-readme" ]; then
     REPO=$(echo "$INPUT" | sunbeam query -r '.params.repo')
-    sunbeam fetch "https://api.github.com/repos/$REPO/readme" | sunbeam query '{
+    # shellcheck disable=SC2016
+    sunbeam fetch "https://api.github.com/repos/$REPO/readme" | sunbeam query --arg repo="$REPO" '{
         type: "detail",
         markdown: (.content | @base64d),
         actions: [
+            {
+                title: "Copy Install Command",
+                onAction: {
+                    type: "copy",
+                    text: "sunbeam install https://github.com/\($repo)",
+                    exit: true
+                }
+            },
             {
                 title: "Open in browser",
                 onAction: {
