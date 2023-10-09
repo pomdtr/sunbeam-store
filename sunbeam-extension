@@ -16,7 +16,7 @@ if [ $# -eq 0 ]; then
                 title: "View Extension README",
                 mode: "view",
                 params: [
-                    { name: "repo", type: "string" }
+                    { name: "repo", type: "string", required: true }
                 ]
             }
         ]
