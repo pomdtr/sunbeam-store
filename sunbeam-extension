@@ -25,7 +25,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ "$1" = "browse" ]; then
-    sunbeam fetch 'https://api.github.com/search/repositories?q=topic:sunbeam-extension' | sunbeam query '.items[] | {
+    sunbeam fetch 'https://api.github.com/search/repositories?q=topic:sunbeam-extension' | sunbeam query '.items | map({
         title: .name,
         subtitle: .owner.login,
         accessories: [(.description // "")],
@@ -57,7 +57,7 @@ if [ "$1" = "browse" ]; then
                 }
             }
         ]
-    }' | sunbeam query -s '{type: "list", items: .}'
+    }) | {type: "list", items: .}'
 elif [ "$1" = "view-readme" ]; then
     REPO=$(sunbeam query -r '.params.repo')
     # shellcheck disable=SC2016
