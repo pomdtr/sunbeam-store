@@ -69,7 +69,7 @@ elif [ "$1" = "view-readme" ]; then
                 title: "Copy Install Command",
                 onAction: {
                     type: "copy",
-                    text: "sunbeam extension install https://github.com/\($repo)",
+                    text: "sunbeam extension install github.com:\($repo)",
                     exit: true
                 }
             },
