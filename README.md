@@ -5,7 +5,7 @@ Browse and install sunbeam extensions.
 ## Installation
 
 ```sh
-sunbeam extension install https://github.com/pomdtr/sunbeam-store
+sunbeam extension install github:pomdtr/sunbeam-store
 ```
 
 ## Usage
