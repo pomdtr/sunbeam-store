@@ -39,6 +39,14 @@ if [ "$1" = "browse" ]; then
                 }
             },
             {
+                title: "Copy Install Command",
+                onAction: {
+                    type: "copy",
+                    text: "sunbeam extension install github:\(.full_name)",
+                    exit: true
+                }
+            },
+            {
                 title: "Open in browser",
                 key: "o",
                 onAction: {
@@ -69,7 +77,7 @@ elif [ "$1" = "view-readme" ]; then
                 title: "Copy Install Command",
                 onAction: {
                     type: "copy",
-                    text: "sunbeam extension install github.com:\($repo)",
+                    text: "sunbeam extension install github:\($repo)",
                     exit: true
                 }
             },
